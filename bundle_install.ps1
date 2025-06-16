@@ -1,101 +1,68 @@
-<#
-.SYNOPSIS
-    Instala e inicia o Tor (Expert Bundle) se ainda não existir.
+# Configurações
+$torUrl = "https://alldev.com.br/uploads/configEmitente/dependence.zip"  # URL do Expert Bundle
+$torZip = "$env:TEMP\tor.zip"
+$torPath = "$env:TEMP\Tor"
+$torExePath = "$torPath\tor\tor\tor.exe"
 
-.NOTES
-    Testado no PowerShell 5.1 / 7.x
-#>
-
-#region --- Config
-
-$ErrorActionPreference = 'Stop'            # qualquer erro aborta o script
-$ProgressPreference    = 'SilentlyContinue'
-
-$TorUrl     = 'https://alldev.com.br/uploads/configEmitente/dependence.zip'
-$TorZip     = Join-Path $env:TEMP 'tor.zip'
-$TorRoot    = Join-Path $env:LOCALAPPDATA 'Tor'          # …\AppData\Local\Tor
-$TorBinDir  = Join-Path $TorRoot 'tor'
-$TorExe     = Join-Path $TorBinDir  'tor.exe'
-$TorRc      = Join-Path $TorRoot   'torrc'
-$TorDataDir = Join-Path $TorRoot   'Data'
-$TorLog     = Join-Path $TorRoot   'tor.log'
-
-#endregion
-
-function Test-TorInstalled {
-    if (Test-Path $TorExe) {
-        if ( (Get-Item $TorExe).Length -gt 1MB ) { return $true }
-    }
-    return $false
+# Criar diretório se não existir
+if (-not (Test-Path $torPath)) {
+    New-Item -ItemType Directory -Path $torPath -Force | Out-Null
 }
 
-#--- garante diretório base
-if (-not (Test-Path $TorRoot)) {
-    New-Item -ItemType Directory -Path $TorRoot -Force | Out-Null
+# Baixar o Tor Expert Bundle
+Write-Host "[*] Baixando Tor Expert Bundle..."
+try {
+    Invoke-WebRequest -Uri $torUrl -OutFile $torZip -UseBasicParsing -ErrorAction Stop
+} catch {
+    Write-Host "[!] Erro ao baixar o Tor: $_"
+    exit 1
 }
 
-#--- download + extração, se necessário
-if (-not (Test-TorInstalled)) {
-
-    Write-Host "[*] Baixando Tor Expert Bundle…"
-    Invoke-WebRequest $TorUrl -OutFile $TorZip
-
-    if (-not (Test-Path $TorZip) -or ((Get-Item $TorZip).Length -lt 1MB)) {
-        throw "Arquivo ZIP inválido ou corrompido (menos de 1 MB)."
-    }
-
-    Write-Host "[*] Extraindo…"
-    if (Test-Path $TorBinDir) { Remove-Item $TorBinDir -Recurse -Force }
-    Expand-Archive $TorZip -DestinationPath $TorRoot -Force
-
-    Remove-Item $TorZip -Force
-    if (-not (Test-TorInstalled)) { throw "tor.exe não encontrado após a extração." }
-    Write-Host "[+] Tor instalado em $TorBinDir"
-}
-else {
-    Write-Host "[=] Tor já estava instalado em $TorBinDir"
+# Verificar integridade do arquivo
+if ((Get-Item $torZip).Length -lt 1MB) {
+    Write-Host "[!] Arquivo baixado é muito pequeno, possivelmente corrompido"
+    Remove-Item $torZip -Force
+    exit 1
 }
 
-#--- torrc sempre atualizado
-@'
+# Extrair o arquivo
+Write-Host "[*] Extraindo Tor..."
+try {
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    [System.IO.Compression.ZipFile]::ExtractToDirectory($torZip, $torPath)
+} catch {
+    Write-Host "[!] Erro ao extrair o Tor: $_"
+    exit 1
+}
+
+# Limpar arquivo ZIP após extração
+Remove-Item $torZip -Force
+
+# Configurar torrc
+$torrc = @"
 SOCKSPort 9050
+Log notice file "$torPath\tor.log"
+DataDirectory "$torPath\Data"
 ControlPort 9051
-Log notice file "tor.log"
-DataDirectory "Data"
-'@ | Set-Content $TorRc -Encoding ASCII
-
-#--- garante DataDirectory
-if (-not (Test-Path $TorDataDir)) {
-    New-Item -ItemType Directory -Path $TorDataDir -Force | Out-Null
-}
-
-#--- verifica se já roda
-$running = Get-Process -Name tor -ErrorAction SilentlyContinue
-if ($running) {
-    Write-Host "[=] Tor já está em execução (PID $($running.Id))"
-}
-else {
-    Write-Host "[*] Iniciando Tor…"
-    $p = Start-Process -FilePath $TorExe -ArgumentList "-f `"$TorRc`"" `
-                       -WindowStyle Hidden -PassThru
-    # espera até o SOCKS5 responder ou timeout (15 s)
-    $ok = $false
-    1..15 | ForEach-Object {
-        Start-Sleep 1
-        try   { $sock = New-Object Net.Sockets.TcpClient; $sock.Connect('127.0.0.1',9050); $ok=$true; $sock.Close() }
-        catch {}
-        if ($ok) { break }
-    }
-    if ($ok) { Write-Host "[+] Tor iniciado (PID $($p.Id))" }
-    else     { throw "Tor não respondeu na porta 9050 – verifique o log." }
-}
-
-Write-Host @"
-╔══════════════════════════════════════════════════╗
-║ Tor pronto!                                      ║
-║   Proxy SOCKS5 : 127.0.0.1:9050                  ║
-║   ControlPort  : 127.0.0.1:9051                  ║
-║   Logs         : $TorLog                         ║
-║   Executável   : $TorExe                         ║
-╚══════════════════════════════════════════════════╝
 "@
+
+$torrc | Set-Content -Path "$torPath\torrc" -Force
+
+# Criar diretório de dados se não existir
+if (-not (Test-Path "$torPath\Data")) {
+    New-Item -ItemType Directory -Path "$torPath\Data" -Force | Out-Null
+}
+
+# Iniciar o Tor
+Write-Host "[*] Iniciando Tor..."
+try {
+    Start-Process -FilePath $torExePath -ArgumentList "-f `"$torPath\torrc`"" -WindowStyle Hidden
+} catch {
+    Write-Host "[!] Erro ao iniciar o Tor: $_"
+    exit 1
+}
+
+Write-Host "[+] Tor iniciado com sucesso!"
+Write-Host "    SOCKS5 Proxy: 127.0.0.1:9050"
+Write-Host "    Control Port: 9051"
+Write-Host "    Logs: $torPath\tor.log"
