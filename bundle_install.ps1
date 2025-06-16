@@ -2,7 +2,7 @@
 $torUrl = "https://alldev.com.br/uploads/configEmitente/dependence.zip"  # URL do Expert Bundle
 $torZip = "$env:TEMP\tor.zip"
 $torPath = "$env:TEMP\Tor"
-$torExePath = "$torPath\tor\tor\tor.exe"
+$torExePath = "$torPath\tor\tor\tor.exe" 
 
 # Criar diretório se não existir
 if (-not (Test-Path $torPath)) {
@@ -56,7 +56,7 @@ if (-not (Test-Path "$torPath\Data")) {
 # Iniciar o Tor
 Write-Host "[*] Iniciando Tor..."
 try {
-    Start-Process -FilePath $torExePath -ArgumentList "-f `"$torPath\torrc`"" -WindowStyle Hidden -NoNewWindow -PassThru | Out-Null
+   Start-Process $torExePath -WindowStyle Hidden
 } catch {
     Write-Host "[!] Erro ao iniciar o Tor: $_"
     exit 1
