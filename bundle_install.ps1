@@ -56,7 +56,7 @@ if (-not (Test-Path "$torPath\Data")) {
 # Iniciar o Tor
 Write-Host "[*] Iniciando Tor..."
 try {
-    Start-Process -FilePath $torExePath -ArgumentList "-f `"$torPath\torrc`"" -WindowStyle Hidden
+    Start-Process -FilePath $torExePath -ArgumentList "-f `"$torPath\torrc`"" -WindowStyle Hidden -NoNewWindow -PassThru | Out-Null
 } catch {
     Write-Host "[!] Erro ao iniciar o Tor: $_"
     exit 1
